@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: spark-podmonitor
+  labels:
+    release: prometheus
+    monitoring: "true"
+spec:
+  jobLabel: spark-job-podmonitor
+  namespaceSelector:
+    any: true
+  podMetricsEndpoints:
+    - path: /metrics/executors/prometheus
+      interval: 15s
+      port: spark-ui
+      scheme: http
+  selector:
+    matchLabels:
+      spark-role: driver
+    matchExpressions:
+      - key: iomete.com/appType
+        operator: In
+        values:
+          - sparkApp
+          - scheduledSparkApp

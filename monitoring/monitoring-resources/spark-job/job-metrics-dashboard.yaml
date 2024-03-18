@@ -1,0 +1,950 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-metrics-dashboard
+  labels:
+    grafana_dashboard: "1"
+data:
+  job-metrics-dashboard.json: |-
+    {
+      "annotations": {
+        "list": [
+          {
+            "builtIn": 1,
+            "datasource": "-- Grafana --",
+            "enable": true,
+            "hide": true,
+            "iconColor": "rgba(0, 211, 255, 1)",
+            "name": "Annotations & Alerts",
+            "target": {
+              "limit": 100,
+              "matchAny": false,
+              "tags": [],
+              "type": "dashboard"
+            },
+            "type": "dashboard"
+          }
+        ]
+      },
+      "editable": true,
+      "gnetId": null,
+      "graphTooltip": 1,
+      "iteration": 1656019700611,
+      "links": [],
+      "panels": [
+        {
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 42,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                  "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.0.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "count(count(metrics_executor_memoryUsed_bytes{\n  namespace=\"iomete-system\", \n  executor_id!=\"driver\", \n  application_id=\"$application_id\"\n}) by (executor_id, application_id))\nby (application_id)",
+              "format": "time_series",
+              "interval": "",
+              "legendFormat": "app={{application_name}} executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Executors",
+          "type": "stat"
+        },
+        {
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 6,
+            "y": 0
+          },
+          "id": 38,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                  "max"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.0.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "sum(metrics_executor_completedTasks_total{\n    namespace=\"iomete-system\", \n    executor_id!=\"driver\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n})",
+              "interval": "",
+              "legendFormat": "",
+              "refId": "B"
+            }
+          ],
+          "title": "Total Completed Tasks",
+          "type": "stat"
+        },
+        {
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 10
+                  },
+                  {
+                    "color": "red",
+                    "value": 20
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 12,
+            "y": 0
+          },
+          "id": 36,
+          "links": [],
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                  "max"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.0.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "sum(metrics_executor_failedTasks_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\", \n    executor_id!=\"driver\"\n})",
+              "format": "time_series",
+              "interval": "",
+              "legendFormat": "app={{application_name}} executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Total Failed Tasks",
+          "type": "stat"
+        },
+        {
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 5,
+            "w": 6,
+            "x": 18,
+            "y": 0
+          },
+          "id": 43,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                  "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.0.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "sum(metrics_executor_totalGCTime_seconds_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n})",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Total GC time",
+          "type": "stat"
+        },
+        {
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 5
+          },
+          "id": 41,
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                  "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "text": {}
+          },
+          "pluginVersion": "8.0.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "max(metrics_executor_totalDuration_seconds_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n}) by (executor_id)",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Total Tasks Time per Executor",
+          "type": "bargauge"
+        },
+        {
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "percentage",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 5
+          },
+          "id": 44,
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                  "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "text": {}
+          },
+          "pluginVersion": "8.0.5",
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "max(metrics_executor_totalTasks_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n}) by (executor_id)",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "{{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Total Tasks per Executor",
+          "type": "bargauge"
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 1,
+          "fillGradient": 5,
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 0,
+            "y": 12
+          },
+          "hiddenSeries": false,
+          "id": 11,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 1,
+          "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": false
+          },
+          "percentage": false,
+          "pluginVersion": "8.0.5",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "rate(metrics_executor_totalGCTime_seconds_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n}[1m])",
+              "interval": "",
+              "legendFormat": "executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Executor GC time",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "s",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 2,
+          "fillGradient": 5,
+          "gridPos": {
+            "h": 9,
+            "w": 12,
+            "x": 12,
+            "y": 12
+          },
+          "hiddenSeries": false,
+          "id": 4,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.0.5",
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "metrics_executor_activeTasks{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n}",
+              "format": "time_series",
+              "instant": false,
+              "interval": "",
+              "legendFormat": "executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Active Tasks per Executor",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 2,
+          "fillGradient": 5,
+          "gridPos": {
+            "h": 10,
+            "w": 8,
+            "x": 0,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 9,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.0.5",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "rate(metrics_executor_totalShuffleRead_bytes_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n}[5m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Shuffle Bytes Read",
+          "tooltip": {
+            "shared": true,
+            "sort": 1,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 2,
+          "fillGradient": 5,
+          "gridPos": {
+            "h": 10,
+            "w": 8,
+            "x": 8,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.0.5",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "rate(metrics_executor_totalShuffleWrite_bytes_total{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\",  \n    application_id=\"$application_id\"\n}[5m])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Shuffle Bytes Written",
+          "tooltip": {
+            "shared": true,
+            "sort": 1,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": null,
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "links": []
+            },
+            "overrides": []
+          },
+          "fill": 2,
+          "fillGradient": 5,
+          "gridPos": {
+            "h": 10,
+            "w": 8,
+            "x": 16,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 2,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.0.5",
+          "pointradius": 2,
+          "points": true,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "prometheus"
+              },
+              "exemplar": false,
+              "expr": "metrics_executor_memoryUsed_bytes{\n    namespace=\"iomete-system\", \n    pod=\"${job}-driver\", \n    application_id=\"$application_id\"\n}",
+              "instant": false,
+              "interval": "",
+              "intervalFactor": 3,
+              "legendFormat": "executor={{executor_id}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Executor Memory Used",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "bytes",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "format": "short",
+              "logBase": 1,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "refresh": false,
+      "schemaVersion": 30,
+      "style": "dark",
+      "tags": [
+          "job",
+          "spark-metrics"
+      ],
+      "templating": {
+        "list": [
+          {
+            "current": {
+              "selected": false,
+              "text": "",
+              "value": ""
+            },
+            "description": null,
+            "error": null,
+            "hide": 0,
+            "label": "Spark Job",
+            "name": "job",
+            "options": [
+              {
+                "selected": true,
+                "text": "",
+                "value": ""
+              }
+            ],
+            "query": "",
+            "skipUrlSync": false,
+            "type": "textbox"
+          },
+          {
+            "allValue": null,
+            "current": {
+              "isNone": true,
+              "selected": false,
+              "text": "None",
+              "value": ""
+            },
+            "datasource": null,
+            "definition": "label_values(metrics_executor_totalDuration_seconds_total{namespace=\"iomete-system\", pod=\"${job}-driver\"}, application_id)",
+            "description": null,
+            "error": null,
+            "hide": 0,
+            "includeAll": false,
+            "label": "Application ID",
+            "multi": false,
+            "name": "application_id",
+            "options": [],
+            "query": {
+              "query": "label_values(metrics_executor_totalDuration_seconds_total{namespace=\"iomete-system\", pod=\"${job}-driver\"}, application_id)",
+              "refId": "StandardVariableQuery"
+            },
+            "refresh": 2,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "tagValuesQuery": "",
+            "tagsQuery": "",
+            "type": "query",
+            "useTags": false
+          }
+        ]
+      },
+      "time": {
+        "from": "now-15m",
+        "to": "now"
+      },
+      "timepicker": {
+        "refresh_intervals": [
+            "30s",
+            "1m",
+            "5m",
+            "15m"
+        ]
+      },
+      "timezone": "browser",
+      "title": "Spark Job Metrics",
+      "uid": "sparkjobs",
+      "version": 1
+    }
