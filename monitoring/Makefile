@@ -15,7 +15,9 @@ all: $(INDICES)
 .PHONY: $(INDICES)
 $(INDICES):
 	$(eval IMAGE=$(word $@,$(IMAGES)))
-	$(eval IMAGE_NAME_TAG=$(shell basename $(IMAGE)))
+	$(eval REPO_TAG=$(subst /, ,$(IMAGE)))
+	$(eval REPO_COUNT=$(words $(REPO_TAG)))
+	$(eval IMAGE_NAME_TAG=$(if $(filter 2,$(REPO_COUNT)),$(word 2, $(REPO_TAG)),$(word 2, $(REPO_TAG))/$(word 3, $(REPO_TAG))))
 	@echo "Processing image $(IMAGE)"
 	# Pull the image from the source repository
 	docker pull $(IMAGE)
