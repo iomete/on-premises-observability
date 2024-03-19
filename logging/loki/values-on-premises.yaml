@@ -1,3 +1,10 @@
+global:
+  image:
+    # -- Overrides the Docker registry globally for all images
+    registry: null
+
+imagePullSecrets: []
+
 serviceAccount:
   create: false
   name: lakehouse-service-account
