@@ -1,3 +1,16 @@
+global:
+  ## Global image registry to use if it needs to be overriden for some specific use cases (e.g local registries, custom images, ...)
+  ##
+  imageRegistry: ""
+
+  ## Reference to one or more secrets to be used when pulling images
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  imagePullSecrets: [ ]
+  # - name: "image-pull-secret"
+  # or
+  # - "image-pull-secret"
+
 grafana:
   enabled: true
   grafana.ini:
