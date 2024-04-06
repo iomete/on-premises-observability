@@ -13,6 +13,10 @@ global:
 
 grafana:
   enabled: true
+  global:
+    imagePullSecrets: [ ]
+  image:
+    repository: docker.io/grafana/grafana
   grafana.ini:
     server:
       root_url: "%(protocol)s://%(domain)s:%(http_port)s/monitoring/"
