@@ -1,9 +1,3 @@
-# Enable Logging and Monitoring for Data Plane
+DEPRECATED!
 
-## Logging
-
-To install logging for the data plane, see the `logging` directory.
-
-## Monitoring
-
-To install monitoring for the data plane, see the `monitoring` directory.
+Please see: https://github.com/iomete/on-prem-deployment
